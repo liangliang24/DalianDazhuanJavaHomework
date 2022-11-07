@@ -2,10 +2,10 @@ import java.util.Scanner;
 
 public class Role
 {
-    private CustomerImpl Customer;
-    private AdminImpl Admin;
+    private CustomerImpl Customer = new CustomerImpl();
+    private AdminImpl Admin = new AdminImpl();
 
-    private String role;
+    protected String role;
 
     Role()
     {
@@ -70,6 +70,8 @@ public class Role
         }
     }
 
+
+
     int BuyEx(int EXCode)
     {
         if (role.equals("Admin"))
@@ -79,13 +81,25 @@ public class Role
         }
         else
         {
-            return getCustomer().buyEX(EXCode);
+            if (getCustomer().buyEX(EXCode)!=null)
+            {
+                return getCustomer().buyEX(EXCode).getPrice();
+            }
+            return 0;
         }
     }
 
-    int CheckOut(int BookId,int EXCode)
+    int CheckOut()
     {
-
+        if (role.equals("Admin"))
+        {
+            System.out.println("Customer Only");
+            return -1;
+        }
+        else
+        {
+            return getCustomer().checkout();
+        }
     }
 
     public CustomerImpl getCustomer()
@@ -110,11 +124,11 @@ public class Role
 
     public String getRole()
     {
-        return Role;
+        return role;
     }
 
     public void setRole(String role)
     {
-        Role = role;
+        this.role = role;
     }
 }

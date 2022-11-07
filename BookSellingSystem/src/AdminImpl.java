@@ -2,20 +2,20 @@ import java.util.Scanner;
 
 public class AdminImpl implements IAdmin
 {
-    BookMgr bm;
+    BookMgr bm = BookMgr.getInstance();
 
     @Override
     public void inBook(int BookId, int nums)
     {
-        BookMgr Manage = bm.getInstance();
-        Manage.inBook(BookId,nums);
+        
+        bm.inBook(BookId,nums);
     }
 
     @Override
     public boolean outBook(int BookId, int nums)
     {
-        BookMgr Manage = bm.getInstance();
-        return Manage.outBook(BookId,nums);
+        
+        return bm.outBook(BookId,nums);
     }
 
     @Override
@@ -35,16 +35,16 @@ public class AdminImpl implements IAdmin
         CreatedBook.setStore(scan.nextInt());
         System.out.println("输入价格");
         CreatedBook.setPrice(scan.nextInt());
-        BookMgr Manage = bm.getInstance();
-        Manage.newBook(CreatedBook);
+        
+        bm.newBook(CreatedBook);
     }
 
     @Override
     public void FindBook(int BookId)
     {
-        BookMgr Manage = bm.getInstance();
+        
 
-        Book CheckTemp = Manage.getById(BookId);
+        Book CheckTemp = bm.getById(BookId);
 
         System.out.println("作者"+CheckTemp.getAuthor());
 

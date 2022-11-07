@@ -1,16 +1,17 @@
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class BookMgr
 {
-    private List<Book> books;
+    private List<Book> books = new ArrayList<Book>();
 
     public List<Integer> getBuyingBookPrice()
     {
         return buyingBookPrice;
     }
 
-    private List<Integer> buyingBookPrice;
+    private List<Integer> buyingBookPrice = new ArrayList<Integer>();
 
     public EX getBuyingEX()
     {
@@ -25,7 +26,7 @@ public class BookMgr
 
     }
 
-    public BookMgr getInstance()
+    public static BookMgr getInstance()
     {
         if (instance == null)
         {
@@ -54,17 +55,16 @@ public class BookMgr
     {
         Book temp = getById(bookId);
 
-        if (temp!=null)
+        if (temp!=null && temp.getStore() >= num)
         {
             temp.setStore(-num);
             return true;
         }
         else
         {
+            System.out.println("操作失败");
             return false;
         }
-
-
     }
 
     void newBook(Book book)
@@ -78,16 +78,20 @@ public class BookMgr
 
     Book getById(int bookId)
     {
-        Iterator<Book> it = getBooks().iterator();
-
-        while(it.hasNext())
+        if (!books.isEmpty())
         {
-            Book temp = it.next();
-            if (bookId == temp.getId())
+            Iterator<Book> it = getBooks().iterator();
+
+            while(it.hasNext())
             {
-                return temp;
+                Book temp = it.next();
+                if (bookId == temp.getId())
+                {
+                    return temp;
+                }
             }
         }
+
 
         System.out.println("Founded Failed");
         return null;
@@ -96,13 +100,25 @@ public class BookMgr
     int BuyBook(int bookId,int num)
     {
         Book temp = getById(bookId);
-        buyingBookPrice.add(temp.getPrice()*num);
-        return temp.getPrice()*num;
+        if (temp!=null)
+        {
+            buyingBookPrice.add(temp.getPrice()*num);
+            return temp.getPrice()*num;
+        }
+        return 0;
     }
 
     EX buyEX(int exCode)
     {
-        buyingEX = SpawnEX.create(exCode);
+        if (buyingBookPrice.isEmpty())
+        {
+            System.out.println("买附赠品先");
+        }
+        else
+        {
+            buyingEX = SpawnEX.create(exCode);
+        }
+
         return buyingEX;
     }
 
@@ -124,15 +140,25 @@ public class BookMgr
     int checkout()
     {
         int bookPriceNums = 0;
-        Iterator<Integer> it = buyingBookPrice.iterator();
-
-        while(it.hasNext())
+        if (!buyingBookPrice.isEmpty())
         {
-            bookPriceNums+=it.next();
+            Iterator<Integer> it = buyingBookPrice.iterator();
+
+            while(it.hasNext())
+            {
+                bookPriceNums+=it.next();
+            }
+            if (buyingEX!=null)
+            {
+                bookPriceNums += buyingEX.getPrice();
+            }
+
+            buyingBookPrice.clear();
+            buyingEX = null;
+            return bookPriceNums;
         }
-        bookPriceNums+= buyingEX.getPrice();
-        buyingBookPrice.clear();
-        buyingEX = null;
-        return bookPriceNums;
+
+        return 0;
+
     }
 }

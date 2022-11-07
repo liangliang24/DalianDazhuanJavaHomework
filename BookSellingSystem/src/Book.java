@@ -42,7 +42,7 @@ public class Book
     }
 
     public void setStore(int store) {
-        this.store = store;
+        this.store += store;
     }
 
     public int getPrice() {
