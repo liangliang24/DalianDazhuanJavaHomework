@@ -46,7 +46,7 @@ public class Role
         }
     }
 
-    Book CheckBook(int BookId)
+    void CheckBook(int BookId)
     {
         if (role.equals("Admin"))
         {
@@ -57,7 +57,7 @@ public class Role
         }
     }
 
-    int BuyBook(int BookId)
+    int BuyBook(int BookId,int nums)
     {
         if (role.equals("Admin"))
         {
@@ -66,13 +66,21 @@ public class Role
         }
         else
         {
-            
+            return getCustomer().BuyBook(BookId,nums);
         }
     }
 
     int BuyEx(int EXCode)
     {
-
+        if (role.equals("Admin"))
+        {
+            System.out.println("Customer Only");
+            return -1;
+        }
+        else
+        {
+            return getCustomer().buyEX(EXCode);
+        }
     }
 
     int CheckOut(int BookId,int EXCode)
