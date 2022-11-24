@@ -5,6 +5,10 @@ import java.sql.Statement;
 
 public class FlowerStoreDAO implements DAOInterface<FlowerStore>
 {
+    public FlowerStoreDAO()
+    {
+    }
+
     @Override
     public boolean addData(FlowerStore t)
     {

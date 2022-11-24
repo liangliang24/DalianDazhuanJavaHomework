@@ -5,6 +5,10 @@ import java.sql.Statement;
 
 public class CustomerDAO implements DAOInterface<Customer>
 {
+    public CustomerDAO()
+    {
+    }
+
     @Override
     public boolean addData(Customer t)
     {

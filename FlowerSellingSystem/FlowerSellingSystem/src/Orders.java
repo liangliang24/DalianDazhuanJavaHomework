@@ -1,5 +1,19 @@
 public class Orders
 {
+    public Orders()
+    {
+    }
+
+    public Orders(String customerName, String customerPhonenumber, int customerConsumption, String flowerName, String FLowerNums, int id)
+    {
+        CustomerName = customerName;
+        CustomerPhonenumber = customerPhonenumber;
+        CustomerConsumption = customerConsumption;
+        FlowerName = flowerName;
+        this.FLowerNums = FLowerNums;
+        this.id = id;
+    }
+
     private String CustomerName;
 
     private String CustomerPhonenumber;

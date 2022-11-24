@@ -1,5 +1,18 @@
 public class Flower
 {
+    public Flower()
+    {
+    }
+
+    public Flower(String name, String flowertype, String price, String nums, String cost)
+    {
+        Name = name;
+        Flowertype = flowertype;
+        Price = price;
+        this.nums = nums;
+        this.cost = cost;
+    }
+
     private String Name;
     private String Flowertype;
     private String Price;

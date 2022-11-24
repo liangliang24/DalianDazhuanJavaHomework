@@ -1,5 +1,15 @@
 public class Customer
 {
+    public Customer()
+    {
+    }
+
+    public Customer(String name, String phonenumber, String password)
+    {
+        Name = name;
+        Phonenumber = phonenumber;
+        Password = password;
+    }
 
     private String Name;
     private String Phonenumber;
