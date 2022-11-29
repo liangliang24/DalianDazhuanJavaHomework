@@ -25,7 +25,7 @@ public class FlowerDAO implements DAOInterface<Flower>
             return false;
         }
 
-        String sql = "insert into flower(name, flowertype, price, nums, cost) values "+
+        String sql = "insert into flower(name, flowertype, price, nums, cost,profit) values "+
                 "("+
                 "'"+t.getName()+"'"+","+
                 "'"+t.getFlowertype()+"'"+","+
@@ -45,9 +45,30 @@ public class FlowerDAO implements DAOInterface<Flower>
     }
 
     @Override
-    public boolean getData(Flower t, ResultSet Result)
+    public ResultSet getData() throws SQLException
     {
 
+        Connection Conn = SQLConnect.getConnection();
+        Statement Stmt;
+        try
+        {
+            Stmt = Conn.createStatement();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+
+        String sql = "select * from flower;";
+
+        ResultSet Result = Stmt.executeQuery(sql);
+
+        return Result;
+    }
+
+    @Override
+    public boolean setData(Flower flower)
+    {
         Connection Conn = SQLConnect.getConnection();
         Statement Stmt;
         try
@@ -59,13 +80,26 @@ public class FlowerDAO implements DAOInterface<Flower>
             return false;
         }
 
-        String sql = "select * from customer;";
+        String sql = "update flower set " +
+                "flowertype = " + "'"+ flower.getFlowertype() + "'"+ "," +
+                "price = " + flower.getPrice() + "," +
+                "nums = " + flower.getNums() + "," +
+                "cost = " + flower.getCost() + "," +
+                "profit = " + flower.getProfit() + "," +
+                "where" +
+                "'" + flower.getName() + "'" + "= name;";
+        int changeline = 0;
         try
         {
-            Result = Stmt.executeQuery(sql);
+            changeline = Stmt.executeUpdate(sql);
         } catch (SQLException e)
         {
             e.printStackTrace();
+            return false;
+        }
+        if (changeline == 0)
+        {
+            System.out.println("更改失败，可能未找到合适数据");
             return false;
         }
         return true;

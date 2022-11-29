@@ -1,25 +1,21 @@
 public class DAOFactory
 {
-    public DAOFactory()
+    
+    public static DAOInterface getInstance(Class t)
     {
-        
-    }
-
-    public static DAOInterface getInstance(String instance)
-    {
-        if (instance == "Flower")
+        if (t == Flower.class)
         {
             return new FlowerDAO();
         }
-        else if (instance == "Customer")
+        else if (t == Customer.class)
         {
             return new CustomerDAO();
         }
-        else if (instance == "FlowerStore")
+        else if (t == FlowerStore.class)
         {
             return new FlowerStoreDAO();
         }
-        else if (instance == "Orders")
+        else if (t == Orders.class)
         {
             return new OrdersDAO();
         }

@@ -1,17 +1,19 @@
+import java.util.Date;
+
 public class Orders
 {
     public Orders()
     {
     }
 
-    public Orders(String customerName, String customerPhonenumber, int customerConsumption, String flowerName, String FLowerNums, int id)
+    public Orders(String customerName, String customerPhonenumber, int customerConsumption, String flowerName, int FLowerNums, Date datetime)
     {
         CustomerName = customerName;
         CustomerPhonenumber = customerPhonenumber;
         CustomerConsumption = customerConsumption;
         FlowerName = flowerName;
         this.FLowerNums = FLowerNums;
-        this.id = id;
+        this.datetime = datetime;
     }
 
     private String CustomerName;
@@ -22,9 +24,11 @@ public class Orders
 
     private String FlowerName;
 
-    private String FLowerNums;
+    private int FLowerNums;
 
     private int id;
+
+    private Date datetime;
 
     public String getCustomerName()
     {
@@ -66,12 +70,12 @@ public class Orders
         FlowerName = flowerName;
     }
 
-    public String getFLowerNums()
+    public int getFLowerNums()
     {
         return FLowerNums;
     }
 
-    public void setFLowerNums(String FLowerNums)
+    public void setFLowerNums(int FLowerNums)
     {
         this.FLowerNums = FLowerNums;
     }
@@ -84,5 +88,15 @@ public class Orders
     public void setId(int id)
     {
         this.id = id;
+    }
+
+    public Date getDatetime()
+    {
+        return datetime;
+    }
+
+    public void setDatetime(Date datetime)
+    {
+        this.datetime = datetime;
     }
 }

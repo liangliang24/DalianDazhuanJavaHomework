@@ -4,22 +4,25 @@ public class Flower
     {
     }
 
-    public Flower(String name, String flowertype, String price, String nums, String cost)
+    public Flower(String name, String flowertype, int price, int nums, int cost, int profit)
     {
         Name = name;
         Flowertype = flowertype;
         Price = price;
         this.nums = nums;
         this.cost = cost;
+        this.profit = profit;
     }
 
     private String Name;
     private String Flowertype;
-    private String Price;
+    private int Price;
 
-    private String nums;
+    private int nums;
 
-    private String cost;
+    private int cost;
+
+    private int profit;
 
     public String getName()
     {
@@ -41,33 +44,43 @@ public class Flower
         this.Flowertype = flowertype;
     }
 
-    public String getPrice()
+    public int getPrice()
     {
         return Price;
     }
 
-    public void setPrice(String price)
+    public void setPrice(int price)
     {
         this.Price = price;
     }
 
-    public String getNums()
+    public int getNums()
     {
         return nums;
     }
 
-    public void setNums(String nums)
+    public void setNums(int nums)
     {
         this.nums = nums;
     }
 
-    public String getCost()
+    public int getCost()
     {
         return cost;
     }
 
-    public void setCost(String cost)
+    public void setCost(int cost)
     {
         this.cost = cost;
+    }
+
+    public int getProfit()
+    {
+        return profit;
+    }
+
+    public void setProfit(int profit)
+    {
+        this.profit = profit;
     }
 }

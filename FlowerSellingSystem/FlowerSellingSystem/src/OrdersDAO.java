@@ -10,6 +10,12 @@ public class OrdersDAO implements DAOInterface<Orders>
     }
 
     @Override
+    public boolean setData(Orders orders)
+    {
+        return false;
+    }
+
+    @Override
     public boolean addData(Orders t)
     {
         Connection Conn = SQLConnect.getConnection();
@@ -31,7 +37,7 @@ public class OrdersDAO implements DAOInterface<Orders>
                 "'"+t.getFlowerName()+"'"+","+
                 t.getFLowerNums()+","+
                 t.getId()+","+
-                ");";
+                "'"+t.getDatetime()+"'"+");";
         try
         {
             Stmt.executeUpdate(sql);
@@ -44,7 +50,7 @@ public class OrdersDAO implements DAOInterface<Orders>
     }
 
     @Override
-    public boolean getData(Orders orders, ResultSet Result)
+    public ResultSet getData() throws SQLException
     {
         Connection Conn = SQLConnect.getConnection();
         Statement Stmt;
@@ -54,18 +60,13 @@ public class OrdersDAO implements DAOInterface<Orders>
         } catch (SQLException e)
         {
             e.printStackTrace();
-            return false;
+            return null;
         }
 
-        String sql = "select * from customer;";
-        try
-        {
-            Result = Stmt.executeQuery(sql);
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+        String sql = "select * from orders;";
+
+        ResultSet Result = Stmt.executeQuery(sql);
+
+        return Result;
     }
 }

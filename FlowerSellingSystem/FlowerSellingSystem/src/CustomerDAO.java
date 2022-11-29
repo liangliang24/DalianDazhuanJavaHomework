@@ -41,7 +41,7 @@ public class CustomerDAO implements DAOInterface<Customer>
     }
 
     @Override
-    public boolean getData(Customer t, ResultSet Result)
+    public ResultSet getData() throws SQLException
     {
         Connection Conn = SQLConnect.getConnection();
         Statement Stmt;
@@ -51,18 +51,19 @@ public class CustomerDAO implements DAOInterface<Customer>
         } catch (SQLException e)
         {
             e.printStackTrace();
-            return false;
+            return null;
         }
 
         String sql = "select * from customer;";
-        try
-        {
-            Result = Stmt.executeQuery(sql);
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+
+        ResultSet Result = Stmt.executeQuery(sql);
+
+        return Result;
+    }
+
+    @Override
+    public boolean setData(Customer customer)
+    {
+        return false;
     }
 }

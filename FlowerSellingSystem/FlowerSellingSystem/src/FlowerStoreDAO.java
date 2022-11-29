@@ -10,6 +10,12 @@ public class FlowerStoreDAO implements DAOInterface<FlowerStore>
     }
 
     @Override
+    public boolean setData(FlowerStore flowerStore)
+    {
+        return false;
+    }
+
+    @Override
     public boolean addData(FlowerStore t)
     {
         Connection Conn = SQLConnect.getConnection();
@@ -40,7 +46,7 @@ public class FlowerStoreDAO implements DAOInterface<FlowerStore>
     }
 
     @Override
-    public boolean getData(FlowerStore flowerStore, ResultSet Result)
+    public ResultSet getData() throws SQLException
     {
         Connection Conn = SQLConnect.getConnection();
         Statement Stmt;
@@ -50,18 +56,13 @@ public class FlowerStoreDAO implements DAOInterface<FlowerStore>
         } catch (SQLException e)
         {
             e.printStackTrace();
-            return false;
+            return null;
         }
 
-        String sql = "select * from customer;";
-        try
-        {
-            Result = Stmt.executeQuery(sql);
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+        String sql = "select * from flowerstore;";
+
+        ResultSet Result = Stmt.executeQuery(sql);
+
+        return Result;
     }
 }
