@@ -5,24 +5,42 @@ import java.util.Scanner;
 
 public class FlowerStoreServiceImpl implements FlowerStoreService
 {
+
+
     public FlowerStoreServiceImpl()
     {
     }
 
-    private FlowerStore flowerStore;
-
-    public FlowerStoreServiceImpl(FlowerStore flowerStore)
+    public FlowerStoreServiceImpl(String account, String password)
     {
-        this.flowerStore = flowerStore;
+        this.account = account;
+        this.password = password;
     }
 
+    private String account;
+
+    private String password;
     @Override
     public void FlowerSelling() throws SQLException
     {
-        Flower flower = ViewInventory();
         DAOInterface<Flower> FlowerDAO = DAOFactory.getInstance(Flower.class);
         ResultSet result = FlowerDAO.getData();
+        System.out.println("请输入你要更改的花的名字");
         Scanner Scan = new Scanner(System.in);
+        Flower flower = new Flower();
+        flower.setName(Scan.next());
+        while(result.next())
+        {
+            if (flower.getName().equals(result.getString("name")))
+            {
+                flower.setFlowertype(result.getString("flowertype"));
+                flower.setPrice(result.getInt("price"));
+                flower.setNums(result.getInt("nums"));
+                flower.setCost(result.getInt("cost"));
+                flower.setProfit(result.getInt("profit"));
+                break;
+            }
+        }
 
         System.out.println("输入成本、售价和利润");
         flower.setCost(Scan.nextInt());
@@ -33,7 +51,8 @@ public class FlowerStoreServiceImpl implements FlowerStoreService
         {
             System.out.println("修改成功");
         }
-        else {
+        else
+        {
             System.out.println("修改失败");
         }
     }
@@ -54,7 +73,7 @@ public class FlowerStoreServiceImpl implements FlowerStoreService
                 Scan.nextInt());
 
         DAOInterface<Flower> FlowerDAO = DAOFactory.getInstance(Flower.class);
-        if (FlowerDAO.setData(flower))
+        if (FlowerDAO.addData(flower))
         {
             System.out.println("添加成功");
         }
@@ -65,39 +84,22 @@ public class FlowerStoreServiceImpl implements FlowerStoreService
     }
 
     @Override
-    public Flower ViewInventory() throws SQLException
+    public ArrayList<Flower> ViewInventory() throws SQLException
     {
-        DAOInterface<Flower> FlowerDAO = DAOFactory.getInstance(Flower.class);
-        ResultSet result = FlowerDAO.getData();
-        Flower flower = null;
-        Scanner Scan = new Scanner(System.in);
-        System.out.println("输入要查询的花的名字");
-        String name = Scan.next();
+        ArrayList<Flower> flowers = new ArrayList<Flower>();
+        DAOInterface<Flower> flowerDAO = DAOFactory.getInstance(Flower.class);
+        ResultSet result = flowerDAO.getData();
         while(result.next())
         {
-            if (name.equals(result.getString("name")))
-            {
-                flower = new Flower(
-                        name,
-                        result.getString("flowertype"),
-                        result.getInt("price"),
-                        result.getInt("nums"),
-                        result.getInt("cost"),
-                        result.getInt("profit"));
-                flower.setFlowertype(result.getString("flowertype"));
-                flower.setPrice(result.getInt("price"));
-                flower.setNums(result.getInt("nums"));
-                flower.setCost(result.getInt("cost"));
-                flower.setProfit(result.getInt("profit"));
-            }
+            flowers.add(new Flower(
+                    result.getString("name"),
+                    result.getString("flowertype"),
+                    result.getInt("price"),
+                    result.getInt("nums"),
+                    result.getInt("cost"),
+                    result.getInt("profit")));
         }
-        if (flower != null)
-        {
-            return flower;
-        }
-        else {
-            return null;
-        }
+        return flowers;
     }
 
     @Override
@@ -155,8 +157,6 @@ public class FlowerStoreServiceImpl implements FlowerStoreService
         ResultSet result = flowerstoreDAO.getData();
         System.out.println("输入账号和密码");
         Scanner Scan = new Scanner(System.in);
-//        System.out.println(acount);
-//        System.out.println(password);
         FlowerStore FS = new FlowerStore(Scan.nextLine(),Scan.nextLine());
         while(result.next())
         {
@@ -185,7 +185,7 @@ public class FlowerStoreServiceImpl implements FlowerStoreService
     public boolean AddFlower() throws SQLException
     {
         String name;
-        DAOInterface<Flower> flowerDAO = DAOFactory.getInstance(FlowerStore.class);
+        DAOInterface<Flower> flowerDAO = DAOFactory.getInstance(Flower.class);
         ResultSet result = flowerDAO.getData();
         System.out.println("输入你要入库的花的名字");
         Scanner Scan = new Scanner(System.in);
@@ -218,12 +218,12 @@ public class FlowerStoreServiceImpl implements FlowerStoreService
     }
 
     @Override
-    public boolean DeleteData() throws SQLException
+    public boolean OutFlower() throws SQLException
     {
         String name;
-        DAOInterface<Flower> flowerDAO = DAOFactory.getInstance(FlowerStore.class);
+        DAOInterface<Flower> flowerDAO = DAOFactory.getInstance(Flower.class);
         ResultSet result = flowerDAO.getData();
-        System.out.println("输入你要入库的花的名字");
+        System.out.println("输入你要出库的花的名字");
         Scanner Scan = new Scanner(System.in);
         name = Scan.next();
         Flower flower = null;
@@ -248,19 +248,30 @@ public class FlowerStoreServiceImpl implements FlowerStoreService
             return false;
         }
         System.out.println("请输入你要减少的数量");
-        flower.setNums(((flower.getNums()-Scan.nextInt())>0?
-            flower.getNums()-Scan.nextInt():0));
+        int d = Scan.nextInt();
+        flower.setNums(((flower.getNums()- d)>0?
+            flower.getNums()- d :0));
         flowerDAO.setData(flower);
         return true;
     }
 
-    public FlowerStore getFlowerStore()
+    public String getAccount()
     {
-        return flowerStore;
+        return account;
     }
 
-    public void setFlowerStore(FlowerStore flowerStore)
+    public void setAccount(String account)
     {
-        this.flowerStore = flowerStore;
+        this.account = account;
+    }
+
+    public String getPassword()
+    {
+        return password;
+    }
+
+    public void setPassword(String password)
+    {
+        this.password = password;
     }
 }

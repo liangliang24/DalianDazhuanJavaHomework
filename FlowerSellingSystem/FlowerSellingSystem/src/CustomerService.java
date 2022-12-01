@@ -1,9 +1,8 @@
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public interface CustomerService
 {
-    public ArrayList<Flower> ViewFlower() throws SQLException;
+    public Flower ViewFlower() throws SQLException;
 
     public boolean BuyFlower() throws SQLException;
 

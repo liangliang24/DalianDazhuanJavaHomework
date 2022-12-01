@@ -1,17 +1,14 @@
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Main
 {
     public static void main(String[] args)
     {
-        FlowerStoreServiceImpl f = new FlowerStoreServiceImpl();
-        try
-        {
-            f.Login();
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+
+        User u = new User("FlowerStore");
+        u.Login();
+        u.OutFlower();
     }
 
 }

@@ -25,13 +25,15 @@ public class FlowerDAO implements DAOInterface<Flower>
             return false;
         }
 
-        String sql = "insert into flower(name, flowertype, price, nums, cost,profit) values "+
+        String sql = "insert into flower(name, flowertype, price, nums, cost,profit) " +
+                "values "+
                 "("+
                 "'"+t.getName()+"'"+","+
                 "'"+t.getFlowertype()+"'"+","+
                 t.getPrice()+","+
                 t.getNums()+","+
-                t.getCost()+","+
+                t.getCost()+"," +
+                t.getProfit()+
                 ");";
         try
         {
@@ -85,9 +87,9 @@ public class FlowerDAO implements DAOInterface<Flower>
                 "price = " + flower.getPrice() + "," +
                 "nums = " + flower.getNums() + "," +
                 "cost = " + flower.getCost() + "," +
-                "profit = " + flower.getProfit() + "," +
-                "where" +
-                "'" + flower.getName() + "'" + "= name;";
+                "profit = " + flower.getProfit()+
+                " where " +
+                "name = " + "'"+flower.getName()+"';";
         int changeline = 0;
         try
         {

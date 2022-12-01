@@ -7,7 +7,7 @@ public interface FlowerStoreService
 
     public void AddNewFlower();//添加新的花
 
-    public Flower ViewInventory() throws SQLException;//查看库存
+    public ArrayList<Flower> ViewInventory() throws SQLException;//查看库存
 
     public ArrayList<Orders> ViewOrders() throws SQLException;//查看订单
 
@@ -17,5 +17,5 @@ public interface FlowerStoreService
 
     public boolean AddFlower() throws SQLException;//入库
 
-    public boolean DeleteData() throws SQLException;//出库
+    public boolean OutFlower() throws SQLException;//出库
 }
