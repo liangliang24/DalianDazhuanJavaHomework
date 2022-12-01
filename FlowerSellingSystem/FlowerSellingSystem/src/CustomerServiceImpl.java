@@ -1,6 +1,5 @@
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.sql.Date;
 import java.util.Scanner;
 
@@ -135,14 +134,9 @@ public class CustomerServiceImpl implements CustomerService
     }
 
     @Override
-    public boolean Login() throws SQLException
+    public boolean Login(String Account, String Password) throws SQLException
     {
-        System.out.println("输入账号密码");
-        Scanner Scan = new Scanner(System.in);
 
-        account = Scan.next();
-
-        password = Scan.next();
 
         DAOInterface<Customer> customerDAO = DAOFactory.getInstance(Customer.class);
 
@@ -150,9 +144,9 @@ public class CustomerServiceImpl implements CustomerService
 
         while(result.next())
         {
-            if (account.equals(result.getString("name")))
+            if (Account.equals(result.getString("name")))
             {
-                if (password.equals(result.getString("password")))
+                if (Password.equals(result.getString("password")))
                 {
                     System.out.println("登录成功");
                     return true;

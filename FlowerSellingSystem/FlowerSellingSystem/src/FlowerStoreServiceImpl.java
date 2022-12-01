@@ -151,13 +151,11 @@ public class FlowerStoreServiceImpl implements FlowerStoreService
     }
 
     @Override
-    public boolean Login() throws SQLException
+    public boolean Login(String Account, String Password) throws SQLException
     {
         DAOInterface<FlowerStore> flowerstoreDAO = DAOFactory.getInstance(FlowerStore.class);
         ResultSet result = flowerstoreDAO.getData();
-        System.out.println("输入账号和密码");
-        Scanner Scan = new Scanner(System.in);
-        FlowerStore FS = new FlowerStore(Scan.nextLine(),Scan.nextLine());
+        FlowerStore FS = new FlowerStore(Account,Password);
         while(result.next())
         {
             if (FS.getAcount().equals(result.getString("acount")))

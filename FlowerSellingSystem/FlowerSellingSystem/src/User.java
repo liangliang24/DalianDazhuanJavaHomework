@@ -3,6 +3,16 @@ import java.util.ArrayList;
 
 public class User
 {
+    public String getLicense()
+    {
+        return license;
+    }
+
+    public void setLicense(String license)
+    {
+        this.license = license;
+    }
+
     private String license;
 
     public User(String license)
@@ -101,13 +111,13 @@ public class User
         return false;
     }
 
-    public boolean Login()
+    public boolean Login(String Account, String Password)
     {
         if (license.equals("Customer"))
         {
             try
             {
-                return customerService.Login();
+                return customerService.Login(Account, Password);
             } catch (SQLException e)
             {
                 e.printStackTrace();
@@ -117,7 +127,7 @@ public class User
         {
             try
             {
-                return flowerstoreService.Login();
+                return flowerstoreService.Login(Account, Password);
             } catch (SQLException e)
             {
                 e.printStackTrace();

@@ -8,6 +8,6 @@ public interface CustomerService
 
     public Orders CheckOrder() throws SQLException;
 
-    public boolean Login() throws SQLException;
+    public boolean Login(String Account, String Password) throws SQLException;
 
 }

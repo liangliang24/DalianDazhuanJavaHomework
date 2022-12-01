@@ -13,7 +13,7 @@ public interface FlowerStoreService
 
     public float Sales() throws SQLException;//查看销售情况
 
-    public boolean Login() throws SQLException;//登录
+    public boolean Login(String Account, String Password) throws SQLException;//登录
 
     public boolean AddFlower() throws SQLException;//入库
 
