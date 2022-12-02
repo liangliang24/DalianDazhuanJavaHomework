@@ -86,6 +86,11 @@ public class LoginTable extends JFrame implements ActionListener
                     CustomerTable CusTable = new CustomerTable(u);
                     CusTable.setVisible(true);
                 }
+                if (majorBox.getSelectedItem().equals("FlowerStore"))
+                {
+                    FlowerStoreTable FSTable = new FlowerStoreTable(u);
+                    FSTable.setVisible(true);
+                }
             }
         }
     }

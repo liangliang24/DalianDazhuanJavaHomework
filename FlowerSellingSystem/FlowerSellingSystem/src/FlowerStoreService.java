@@ -3,9 +3,9 @@ import java.util.ArrayList;
 
 public interface FlowerStoreService
 {
-    public void FlowerSelling() throws SQLException;//改变销售鲜花的值
+    public void FlowerSelling(String Name, int Cost, int Price, int Profit) throws SQLException;//改变销售鲜花的值
 
-    public void AddNewFlower();//添加新的花
+    public void AddNewFlower(String Name, String FlowerType, int price, int nums, int cost, int profit);//添加新的花
 
     public ArrayList<Flower> ViewInventory() throws SQLException;//查看库存
 
@@ -15,7 +15,7 @@ public interface FlowerStoreService
 
     public boolean Login(String Account, String Password) throws SQLException;//登录
 
-    public boolean AddFlower() throws SQLException;//入库
+    public boolean AddFlower(String Name, int nums) throws SQLException;//入库
 
-    public boolean OutFlower() throws SQLException;//出库
+    public boolean OutFlower(String Name, int nums) throws SQLException;//出库
 }

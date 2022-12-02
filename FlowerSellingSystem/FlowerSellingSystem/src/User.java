@@ -36,24 +36,32 @@ public class User
 
     private FlowerStoreServiceImpl flowerstoreService;
 
-    public void FlowerSelling()
+    public void FlowerSelling(String Name, int Cost, int Price, int Profit)
     {
         try
         {
-            flowerstoreService.FlowerSelling();
+            flowerstoreService.FlowerSelling(Name, Cost, Price, Profit);
         } catch (SQLException e)
         {
             e.printStackTrace();
         }
     }
 
-    public void AddNewFlower()
+    public void AddNewFlower(
+            String Name,
+            String FlowerType,
+            int price,
+            int nums,
+            int cost,
+            int profit
+    )
     {
-        flowerstoreService.AddNewFlower();
+        flowerstoreService.AddNewFlower(Name, FlowerType, price, nums, cost, profit);
     }
 
     public ArrayList<Flower> ViewInventory()
     {
+
         try
         {
             return flowerstoreService.ViewInventory();
@@ -88,22 +96,22 @@ public class User
         }
     }
 
-    public boolean AddFlower()
+    public boolean AddFlower(String Name, int Nums)
     {
         try
         {
-            return flowerstoreService.AddFlower();
+            return flowerstoreService.AddFlower(Name,Nums);
         } catch (SQLException e)
         {
             throw new RuntimeException(e);
         }
     }
 
-    public boolean OutFlower()
+    public boolean OutFlower(String Name, int nums)
     {
         try
         {
-            return flowerstoreService.OutFlower();
+            return flowerstoreService.OutFlower(Name,nums);
         } catch (SQLException e)
         {
             e.printStackTrace();
@@ -151,14 +159,29 @@ public class User
 
     public ArrayList<Orders> CheckOrder()
     {
-        try
+        if (license == "Customer")
         {
-            return customerService.CheckOrder();
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-            return null;
+            try
+            {
+                return customerService.CheckOrder();
+            } catch (SQLException e)
+            {
+                e.printStackTrace();
+                return null;
+            }
         }
+        else if (license == "FlowerStore")
+        {
+            try
+            {
+                return flowerstoreService.ViewOrders();
+            } catch (SQLException e)
+            {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
     }
 
     public ArrayList<Flower> ViewFlower()

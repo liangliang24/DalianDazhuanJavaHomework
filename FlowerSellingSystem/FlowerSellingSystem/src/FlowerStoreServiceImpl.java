@@ -21,14 +21,12 @@ public class FlowerStoreServiceImpl implements FlowerStoreService
 
     private String password;
     @Override
-    public void FlowerSelling() throws SQLException
+    public void FlowerSelling(String Name, int Cost, int Price, int Profit) throws SQLException
     {
         DAOInterface<Flower> FlowerDAO = DAOFactory.getInstance(Flower.class);
         ResultSet result = FlowerDAO.getData();
-        System.out.println("请输入你要更改的花的名字");
-        Scanner Scan = new Scanner(System.in);
         Flower flower = new Flower();
-        flower.setName(Scan.next());
+        flower.setName(Name);
         while(result.next())
         {
             if (flower.getName().equals(result.getString("name")))
@@ -43,9 +41,9 @@ public class FlowerStoreServiceImpl implements FlowerStoreService
         }
 
         System.out.println("输入成本、售价和利润");
-        flower.setCost(Scan.nextInt());
-        flower.setPrice(Scan.nextInt());
-        flower.setProfit(Scan.nextInt());
+        flower.setCost(Cost);
+        flower.setPrice(Price);
+        flower.setProfit(Profit);
 
         if (FlowerDAO.setData(flower))
         {
@@ -58,19 +56,16 @@ public class FlowerStoreServiceImpl implements FlowerStoreService
     }
 
     @Override
-    public void AddNewFlower()
+    public void AddNewFlower(String Name, String FlowerType, int price, int nums, int cost, int profit)
     {
         Flower flower;
-        Customer customer = new Customer();
-        Scanner Scan = new Scanner(System.in);
-        System.out.println("输入要添加的花的名字、品种、价格、库存、成本、利润");
         flower = new Flower(
-                Scan.next(),
-                Scan.next(),
-                Scan.nextInt(),
-                Scan.nextInt(),
-                Scan.nextInt(),
-                Scan.nextInt());
+                Name,
+                FlowerType,
+                price,
+                nums,
+                cost,
+                profit);
 
         DAOInterface<Flower> FlowerDAO = DAOFactory.getInstance(Flower.class);
         if (FlowerDAO.addData(flower))
@@ -180,21 +175,17 @@ public class FlowerStoreServiceImpl implements FlowerStoreService
     }
 
     @Override
-    public boolean AddFlower() throws SQLException
+    public boolean AddFlower(String Name, int nums) throws SQLException
     {
-        String name;
         DAOInterface<Flower> flowerDAO = DAOFactory.getInstance(Flower.class);
         ResultSet result = flowerDAO.getData();
-        System.out.println("输入你要入库的花的名字");
-        Scanner Scan = new Scanner(System.in);
-        name = Scan.next();
         Flower flower = null;
         while(result.next())
         {
-            if (name.equals(result.getString("name")))
+            if (Name.equals(result.getString("name")))
             {
                 flower = new Flower(
-                        name,
+                        Name,
                         result.getString("flowertype"),
                         result.getInt("price"),
                         result.getInt("nums"),
@@ -210,27 +201,23 @@ public class FlowerStoreServiceImpl implements FlowerStoreService
             return false;
         }
         System.out.println("请输入你要增加的数量");
-        flower.setNums(flower.getNums()+Scan.nextInt());
+        flower.setNums(flower.getNums()+nums);
         flowerDAO.setData(flower);
         return true;
     }
 
     @Override
-    public boolean OutFlower() throws SQLException
+    public boolean OutFlower(String Name, int nums) throws SQLException
     {
-        String name;
         DAOInterface<Flower> flowerDAO = DAOFactory.getInstance(Flower.class);
         ResultSet result = flowerDAO.getData();
-        System.out.println("输入你要出库的花的名字");
-        Scanner Scan = new Scanner(System.in);
-        name = Scan.next();
         Flower flower = null;
         while(result.next())
         {
-            if (name.equals(result.getString("name")))
+            if (Name.equals(result.getString("name")))
             {
                 flower = new Flower(
-                        name,
+                        Name,
                         result.getString("flowertype"),
                         result.getInt("price"),
                         result.getInt("nums"),
@@ -246,9 +233,8 @@ public class FlowerStoreServiceImpl implements FlowerStoreService
             return false;
         }
         System.out.println("请输入你要减少的数量");
-        int d = Scan.nextInt();
-        flower.setNums(((flower.getNums()- d)>0?
-            flower.getNums()- d :0));
+        flower.setNums(((flower.getNums()- nums)>0?
+            flower.getNums()- nums :0));
         flowerDAO.setData(flower);
         return true;
     }

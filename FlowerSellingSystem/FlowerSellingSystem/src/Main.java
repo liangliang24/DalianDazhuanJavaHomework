@@ -6,7 +6,7 @@ public class Main
     public static void main(String[] args)
     {
 
-        LoginTable frame = new LoginTable();
+        FlowerStoreTable frame = new FlowerStoreTable(new User("FlowerStore"));
         frame.setVisible(true);
     }
 
