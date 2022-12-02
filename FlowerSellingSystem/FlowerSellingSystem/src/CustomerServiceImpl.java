@@ -1,6 +1,7 @@
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CustomerServiceImpl implements CustomerService
@@ -9,19 +10,21 @@ public class CustomerServiceImpl implements CustomerService
 
     public CustomerServiceImpl(String account, String password)
     {
-        this.account = account;
-
-        this.password = password;
+        this.account = new String(account);
+        this.password = new String(password);
     }
 
     public CustomerServiceImpl()
     {
+        account = new String();
+        password = new String();
     }
 
     public Customer getCustom() throws SQLException
     {
         DAOInterface<Customer> CusDAO = DAOFactory.getInstance(Customer.class);
         ResultSet result = CusDAO.getData();
+        System.out.println(account);
         while(result.next())
         {
             if (account.equals(result.getString("name")))
@@ -39,54 +42,58 @@ public class CustomerServiceImpl implements CustomerService
     private String account;
     private String password;
     @Override
-    public Flower ViewFlower() throws SQLException
+    public ArrayList<Flower> ViewFlower() throws SQLException
     {
         DAOInterface<Flower> FlowerDAO = DAOFactory.getInstance(Flower.class);
         ResultSet result = FlowerDAO.getData();
-        Flower flower = null;
+        ArrayList<Flower> flower = new ArrayList<Flower>();
         Scanner Scan = new Scanner(System.in);
-        System.out.println("输入要查询的花的名字");
-        String name = Scan.next();
         while(result.next())
         {
-            if (name.equals(result.getString("name")))
-            {
-                flower = new Flower(
-                        name,
-                        result.getString("flowertype"),
-                        result.getInt("price"),
-                        result.getInt("nums"),
-                        result.getInt("cost"),
-                        result.getInt("profit"));
-            }
+
+            flower.add(new Flower(
+                    result.getString("name"),
+                    result.getString("flowertype"),
+                    result.getInt("price"),
+                    result.getInt("nums"),
+                    result.getInt("cost"),
+                    result.getInt("profit")));
+
         }
-        if (flower != null)
-        {
-            return flower;
-        }
-        else {
-            return null;
-        }
+
+        return flower;
+
 
     }
 
     @Override
-    public boolean BuyFlower() throws SQLException
+    public boolean BuyFlower(String flowername, int nums) throws SQLException
     {
-        Flower flowers = ViewFlower();
-        Scanner Scan = new Scanner(System.in);
-        System.out.println("请输入你要购买的数量");
-
-        int counts = Scan.nextInt();
-
-        if (flowers.getNums() < counts)
+        ArrayList<Flower> flowers = ViewFlower();
+        int index = 0;
+        int n = flowers.size();
+        while(index < n)
         {
-            counts = flowers.getNums();
+            if (flowername.equals(flowers.get(index).getName()))
+            {
+                break;
+            }
+            index++;
         }
-        flowers.setNums(flowers.getNums()-counts);
+        if (index == n)
+        {
+            System.out.println("找不到");
+            return false;
+        }
+
+        if (flowers.get(index).getNums() < nums)
+        {
+            nums = flowers.get(index).getNums();
+        }
+        flowers.get(index).setNums(flowers.get(index).getNums()-nums);
         DAOInterface<Flower> flowerDAO = DAOFactory.getInstance(Flower.class);
         DAOInterface<Orders> ordersDAO = DAOFactory.getInstance(Orders.class);
-        flowerDAO.setData(flowers);
+        flowerDAO.setData(flowers.get(index));
         System.out.println("access!");
         Customer temp = getCustom();
         Orders orders = null;
@@ -95,9 +102,9 @@ public class CustomerServiceImpl implements CustomerService
             orders = new Orders(
                     temp.getName(),
                     temp.getPhonenumber(),
-                    counts * flowers.getPrice(),
-                    flowers.getName(),
-                    counts,
+                    nums * flowers.get(index).getPrice(),
+                    flowers.get(index).getName(),
+                    nums,
                     new Date(System.currentTimeMillis()));
         }
         else {
@@ -109,25 +116,28 @@ public class CustomerServiceImpl implements CustomerService
     }
 
     @Override
-    public Orders CheckOrder() throws SQLException
+    public ArrayList<Orders> CheckOrder() throws SQLException
     {
         DAOInterface<Orders> ordersDAO = DAOFactory.getInstance(Orders.class);
         ResultSet result = ordersDAO.getData();
-        Orders orders = new Orders();
+        Customer custom = getCustom();
+        ArrayList<Orders> orders = new ArrayList<Orders>();
         Scanner Scan = new Scanner(System.in);
-        System.out.println("输入你要查询的id");
-        orders.setId(Scan.nextInt());
         while(result.next())
         {
-            if (orders.getId() == result.getInt("id"))
+            if (custom.getPhonenumber().equals(result.getString("customerphonenumber")))
             {
-                orders.setCustomerName(result.getString("customername"));
-                orders.setCustomerPhonenumber(result.getString("customerphonenumber"));
-                orders.setCustomerConsumption(result.getInt("customerconsumption"));
-                orders.setFlowerName(result.getString("flowername"));
-                orders.setFLowerNums(result.getInt("flowernums"));
-                orders.setDatetime(result.getDate("time"));
-                break;
+                orders.add(
+                        new Orders(
+                                result.getString("customername"),
+                                result.getString("customerphonenumber"),
+                                result.getInt("customerconsumption"),
+                                result.getString("flowername"),
+                                result.getInt("flowernums"),
+                                result.getDate("time")
+
+                        )
+                );
             }
         }
         return orders;
@@ -149,6 +159,8 @@ public class CustomerServiceImpl implements CustomerService
                 if (Password.equals(result.getString("password")))
                 {
                     System.out.println("登录成功");
+                    account = Account;
+                    password = Password;
                     return true;
                 }
                 else
@@ -159,6 +171,7 @@ public class CustomerServiceImpl implements CustomerService
             }
         }
         System.out.println("账号错误");
+
         return false;
     }
 }

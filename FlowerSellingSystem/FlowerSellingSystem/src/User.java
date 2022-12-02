@@ -136,11 +136,12 @@ public class User
         return false;
     }
 
-    public boolean BuyFlower()
+    public boolean BuyFlower(String flowername, int nums)
     {
+        System.out.println("inm");
         try
         {
-            return customerService.BuyFlower();
+            return customerService.BuyFlower(flowername, nums);
         } catch (SQLException e)
         {
             e.printStackTrace();
@@ -148,7 +149,7 @@ public class User
         }
     }
 
-    public Orders CheckOrder()
+    public ArrayList<Orders> CheckOrder()
     {
         try
         {
@@ -160,7 +161,7 @@ public class User
         }
     }
 
-    public Flower ViewFlower()
+    public ArrayList<Flower> ViewFlower()
     {
         try
         {

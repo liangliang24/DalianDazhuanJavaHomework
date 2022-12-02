@@ -78,8 +78,15 @@ public class LoginTable extends JFrame implements ActionListener
         if (e.getSource() == LoginButton)
         {
             u = new User((String)(majorBox.getSelectedItem()));
-            u.Login(accountField.getText(),passwordField.getText());
-            this.setVisible(false);
+            if (u.Login(accountField.getText(),passwordField.getText()))
+            {
+                this.setVisible(false);
+                if (majorBox.getSelectedItem().equals("Customer"))
+                {
+                    CustomerTable CusTable = new CustomerTable(u);
+                    CusTable.setVisible(true);
+                }
+            }
         }
     }
 }
